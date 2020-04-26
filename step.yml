@@ -74,11 +74,11 @@ inputs:
         Please be sure to use **project name**, not **display name**.
       is_required: true
       is_expand: true
-  - test_condition_number: "1"
+  - test_settings_number: "1"
     opts:
-      title: "Test condition number"
+      title: "Test settings number"
       description: |-
-        Test condition number specified on Magic Pod project batch run page.
+        Test settings number specified on Magic Pod project batch run page.
       is_required: true
   - app_path: "$BITRISE_APP_DIR_PATH"
     opts:
@@ -102,14 +102,6 @@ inputs:
         Define how to tread the uploaded app file after the test.
         This option is valid only when you specify _App path_.
       value_options: ["Not delete", "Always delete", "Delete only when tests succeeded"]
-  - test_settings:
-    opts:
-      title: "Test settings"
-      description: |-
-        You can specify settings you want to override on already defined ones with JSON format.
-        For detail format, you can see API document (https://magic-pod.com/api/v1.0/doc/) or try "Copy as curl" command on project batch run page.
-      category: "detail"
-      is_required: false
   - base_url: "https://magic-pod.com/api/v1.0"
     opts:
       title: "Magic Pod web API URL"
@@ -120,33 +112,14 @@ inputs:
 
 
 outputs:
-  - MAGIC_POD_TEST_STATUS:
+  - MAGIC_POD_TEST_SUCCEEDED:
     opts:
-      title: "MAGIC_POD_TEST_STATUS"
+      title: "MAGIC_POD_TEST_SUCCEEDED"
       summary: |-
-        Status of batch test run. The value is either of 'succeeded', 'failed', 'aborted', 'running'.
-  - MAGIC_POD_TEST_PASSED_COUNT:
+        This variable becomes 'true' only when all batch runs succeeded, otherwise 'false'.
+  - MAGIC_POD_TEST_RESULT:
     opts:
-      title: "MAGIC_POD_TEST_PASSED_COUNT"
+      title: "MAGIC_POD_TEST_RESULT"
       summary: |-
-        The number of succeeded test cases in the batch run.
-  - MAGIC_POD_TEST_FAILED_COUNT:
-    opts:
-      title: "MAGIC_POD_TEST_FAILED_COUNT"
-      summary: |-
-        The number of failed test cases in the batch run.
-  - MAGIC_POD_TEST_UNRESOLVED_COUNT:
-    opts:
-      title: "MAGIC_POD_TEST_UNRESOLVED_COUNT"
-      summary: |-
-        The number of unresolved test cases in the batch run.
-  - MAGIC_POD_TEST_TOTAL_COUNT:
-    opts:
-      title: "MAGIC_POD_TEST_TOTAL_COUNT"
-      summary: |-
-        The number of total test cases in the batch run.
-  - MAGIC_POD_TEST_URL:
-    opts:
-      title: "MAGIC_POD_TEST_URL"
-      summary: |-
-        URL of Magic Pod batch run page
+        Array which contains status/URL information of all batch runs.  The format is like
+        [{"Url":"https://magic-pod.com/ORG_NAME/PRJ_NAME/batch-run/10/","Status":"failed","Batch_Run_Number":10,"Test_Cases":{"Succeeded":3,"Failed":1,"Aborted":0,"Unresolved":0,"Total":4}}]
