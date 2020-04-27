@@ -1,6 +1,6 @@
-# magicpod-uitest
+# magic-pod
 
-Magic Pod UI test step
+This step enables E2E testing powered by [Magic Pod](https://magic-pod.com)
 
 
 ## How to use this Step
@@ -14,7 +14,10 @@ added to your `.bitrise.secrets.yml` file!*
 
 Requirements:
 
-- You need to sign up to `https://magic-pod.com` and create test cases first.
+- You need to sign up to `https://magic-pod.com` and create the following.
+  - Project
+  - Test cases
+  - Test settings (which defines how batch runs should be executed)
 - You also need to confirm your API token in `https://magic-pod.com/accounts/api-token/`
 
 Step by step:
@@ -33,6 +36,10 @@ An example `.bitrise.secrets.yml` file:
 ```
 envs:
 - MAGIC_POD_API_TOKEN: "<YOUR_TOKEN>"
-- BITRISE_APP_DIR_PATH: "<PATH_TO_YOUR_APP_FILE>"
-- BASE_URL: "https://magic-pod.com/api/v1.0"
+- ORGANIZATION_NAME: "<YOUR_ORGANIZATION_NAME>"
+- PROJECT_NAME: "<YOUR_PROJECT_NAME>"
+- TEST_SETTINGS_NUMBER: "<YOUR_TEST_SETTINGS_NUMBER>"
+- APP_PATH: "<PATH_TO_YOUR_APP>"
+- WAIT_FOR_RESULT: "true"
+- DELETE_APP_AFTER_TEST: "Not delete"
 ```
