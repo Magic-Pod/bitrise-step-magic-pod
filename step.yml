@@ -85,7 +85,7 @@ inputs:
       title: "Test settings"
       description: |-
         If you would like to define test settings from scratch or overwrite pre-defined test settings, please specify this parameter.
-        You can generate an example on your project's batch run page (Advanced -> Copy as curl(Mac/Linux) (detailed settings))
+        You can generate an example JSON on your project's batch run page (Setting -> menu -> Advanced -> Copy as magic-pod-api-client (detailed settings))
       category: "detail"
       is_required: false
   - app_path: "$BITRISE_APP_DIR_PATH"
