@@ -103,6 +103,11 @@ inputs:
       description: |-
         If set to true, this step waits until Magic Pod testing is completed and succeeds only when the test is successful.
         Otherwise this step immediately exits with success.
+  - wait_limit: "0"
+    opts:
+      title: "Wait limit"
+      description: |-
+        Wait limit in seconds. If 0 is specified, the value is test count x 10 minutes.
   - delete_app_after_test: "Not delete"
     opts:
       title: "Delete app after test"

@@ -23,6 +23,7 @@ type Config struct {
 	TestSettingsNumber int             `env:"test_settings_number"`
 	TestSettings	   string	       `env:"test_settings"`
 	WaitForResult      bool            `env:"wait_for_result"`
+	WaitLimit	       int             `env:"wait_limit"`
 	DeleteAppAfterTest string          `env:"delete_app_after_test"`
 }
 
@@ -124,7 +125,7 @@ func main() {
 
 	batchRuns, existsErr, existsUnresolved, cliErr := common.ExecuteBatchRun(cfg.BaseURL, string(cfg.APIToken),
 		cfg.OrganizationName, cfg.ProjectName, make(map[string]string), cfg.TestSettingsNumber,
-		settingsStr, cfg.WaitForResult, 0, true)
+		settingsStr, cfg.WaitForResult, cfg.WaitLimit, true)
 	if cliErr != nil {
 		failf(cliErr.Error())
 	}

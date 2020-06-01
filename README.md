@@ -42,5 +42,6 @@ envs:
 - TEST_SETTINGS: ""
 - APP_PATH: "<PATH_TO_YOUR_APP>"
 - WAIT_FOR_RESULT: "true"
+- WAIT_LIMIT: "0"
 - DELETE_APP_AFTER_TEST: "Not delete"
 ```
