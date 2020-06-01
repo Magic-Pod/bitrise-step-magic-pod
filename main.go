@@ -21,6 +21,7 @@ type Config struct {
 	ProjectName        string          `env:"project_name,required"`
 	AppPath            string          `env:"app_path"`
 	TestSettingsNumber int             `env:"test_settings_number"`
+	TestSettings	   string	       `env:"test_settings"`
 	WaitForResult      bool            `env:"wait_for_result"`
 	DeleteAppAfterTest string          `env:"delete_app_after_test"`
 }
@@ -70,6 +71,17 @@ func main() {
 	if err := stepconf.Parse(&cfg); err != nil {
 		failf(err.Error())
 	}
+	var testSettings map[string]interface{}
+	if cfg.TestSettings == "" {
+		if cfg.TestSettingsNumber == 0 {
+			failf("You have to specify either of Test settings number or Test settings")
+		}
+	} else {
+		if errJSON := json.Unmarshal([]byte(cfg.TestSettings), &testSettings); errJSON != nil {
+			failf(errJSON.Error())
+		}
+	}
+
 	os.Setenv("MAGIC_POD_API_TOKEN", string(cfg.APIToken))
 	os.Setenv("MAGIC_POD_ORGANIZATION", cfg.OrganizationName)
 	os.Setenv("MAGIC_POD_PROJECT", cfg.ProjectName)
@@ -81,19 +93,38 @@ func main() {
 		failf("Failed to remove API key data from envs, error: %s", err)
 	}
 
-	// Upload app file if necessary
+	settingsStr := cfg.TestSettings
+	// Upload app file if necessary and merge it into settings
 	appFileNumber := -1
-	settings := ""
 	if cfg.AppPath != "" {
 		appFileNumber = uploadAppFile(cfg)
-		settingsMap := map[string]int{"app_file_number": appFileNumber}
-		settingsBytes, _ := json.Marshal(settingsMap)
-		settings = string(settingsBytes)
+		if settingsStr == "" {
+			settingsStr = fmt.Sprintf("{\"app_file_number\": %d}", appFileNumber)
+		} else {
+			// cfg.TestSettings is already parsed into testSettings
+			individualSettings, exists := testSettings["test_settings"]
+			if exists {
+				settingArray, ok := individualSettings.([]interface{})
+				if !ok {
+					failf("Test settings are invalid. Value of \"test_settings\" should be an array")
+				}
+				for _, setting := range settingArray {
+					settingMap := setting.(map[string]interface{})
+					settingMap["app_file_number"] = appFileNumber
+				}
+			} else {
+				testSettings["app_file_number"] = appFileNumber
+			}
+			settingsBytes, _ := json.Marshal(testSettings)
+			settingsStr = string(settingsBytes)
+		}
 	}
+
+	log.Infof(settingsStr)
 
 	batchRuns, existsErr, existsUnresolved, cliErr := common.ExecuteBatchRun(cfg.BaseURL, string(cfg.APIToken),
 		cfg.OrganizationName, cfg.ProjectName, make(map[string]string), cfg.TestSettingsNumber,
-		settings, cfg.WaitForResult, 0, true)
+		settingsStr, cfg.WaitForResult, 0, true)
 	if cliErr != nil {
 		failf(cliErr.Error())
 	}

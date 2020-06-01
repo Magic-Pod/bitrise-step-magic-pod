@@ -8,6 +8,7 @@ app:
   - ORGANIZATION_NAME: $ORGANIZATION_NAME
   - PROJECT_NAME: $PROJECT_NAME
   - TEST_SETTINGS_NUMBER: $TEST_SETTINGS_NUMBER
+  - TEST_SETTINGS: $TEST_SETTINGS
   - APP_PATH: $APP_PATH
   - WAIT_FOR_RESULT: $WAIT_FOR_RESULT
   - DELETE_APP_AFTER_TEST: $DELETE_APP_AFTER_TEST
@@ -42,6 +43,7 @@ workflows:
         - organization_name: $ORGANIZATION_NAME
         - project_name: $PROJECT_NAME
         - test_settings_number: $TEST_SETTINGS_NUMBER
+        - test_settings: $TEST_SETTINGS
         - app_path: $APP_PATH
         - wait_for_result: $WAIT_FOR_RESULT
         - delete_app_after_test: $DELETE_APP_AFTER_TEST
