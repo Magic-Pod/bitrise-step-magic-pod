@@ -102,7 +102,7 @@ inputs:
         Define how to tread the uploaded app file after the test.
         This option is valid only when you specify _App path_.
       value_options: ["Not delete", "Always delete", "Delete only when tests succeeded"]
-  - base_url: "https://magic-pod.com/api/v1.0"
+  - base_url: "https://magic-pod.com"
     opts:
       title: "Magic Pod web API URL"
       description: |-
