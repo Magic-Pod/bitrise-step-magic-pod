@@ -99,7 +99,7 @@ inputs:
     opts:
       title: "Delete app after test"
       description: |-
-        Define how to tread the uploaded app file after the test.
+        Define how to treat the uploaded app file after the test.
         This option is valid only when you specify _App path_.
       value_options: ["Not delete", "Always delete", "Delete only when tests succeeded"]
   - base_url: "https://magic-pod.com"

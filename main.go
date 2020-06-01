@@ -121,7 +121,6 @@ func main() {
 	if err != nil {
 		failf(err.Error())
 	}
-	fmt.Print(result)
 	tools.ExportEnvironmentWithEnvman("MAGIC_POD_TEST_SUCCEEDED", strconv.FormatBool(succeeded))
 	tools.ExportEnvironmentWithEnvman("MAGIC_POD_TEST_RESULT", result)
 	if succeeded {
