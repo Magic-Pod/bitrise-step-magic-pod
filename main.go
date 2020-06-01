@@ -21,9 +21,9 @@ type Config struct {
 	ProjectName        string          `env:"project_name,required"`
 	AppPath            string          `env:"app_path"`
 	TestSettingsNumber int             `env:"test_settings_number"`
-	TestSettings	   string	       `env:"test_settings"`
+	TestSettings	   string          `env:"test_settings"`
 	WaitForResult      bool            `env:"wait_for_result"`
-	WaitLimit	       int             `env:"wait_limit"`
+	WaitLimit          int             `env:"wait_limit"`
 	DeleteAppAfterTest string          `env:"delete_app_after_test"`
 }
 
