@@ -79,7 +79,15 @@ inputs:
       title: "Test settings number"
       description: |-
         Test settings number specified on Magic Pod project batch run page.
-      is_required: true
+      is_required: false
+  - test_settings:
+    opts:
+      title: "Test settings"
+      description: |-
+        If you would like to define test settings from scratch or overwrite pre-defined test settings, please specify this parameter.
+        You can generate an example JSON on your project's batch run page (Setting -> menu -> Advanced -> Copy as magic-pod-api-client (detailed settings))
+      category: "detail"
+      is_required: false
   - app_path: "$BITRISE_APP_DIR_PATH"
     opts:
       title: "App path"
@@ -95,6 +103,11 @@ inputs:
       description: |-
         If set to true, this step waits until Magic Pod testing is completed and succeeds only when the test is successful.
         Otherwise this step immediately exits with success.
+  - wait_limit: "0"
+    opts:
+      title: "Wait limit"
+      description: |-
+        Wait limit in seconds. If 0 is specified, the value is test count x 10 minutes.
   - delete_app_after_test: "Not delete"
     opts:
       title: "Delete app after test"
