@@ -8,11 +8,11 @@
 # - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
 
 title: |-
-  Magic Pod UI test
+  Magic Pod
 summary: |
   Magic Pod UI test step
 description: |
-  Magic Pod UI test step
+  You can execute E2E testing of iOS/Android apps on Magic Pod (https://magic-pod.com).
 website: https://github.com/magic-Pod/bitrise-step-magicpod-uitest
 source_code_url: https://github.com/magic-Pod/bitrise-step-magicpod-uitest
 support_url: https://github.com/magic-Pod/bitrise-step-magicpod-uitest/issues
