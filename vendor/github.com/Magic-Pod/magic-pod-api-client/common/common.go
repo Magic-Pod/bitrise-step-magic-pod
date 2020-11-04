@@ -27,11 +27,6 @@ type BatchRun struct {
 	}
 }
 
-// CrossBatchRun stands for a group of batch runs executed on the server
-type CrossBatchRun struct {
-	Batch_Runs []BatchRun
-}
-
 // UploadFile stands for a file to be uploaded to the server
 type UploadFile struct {
 	File_No int
@@ -147,35 +142,23 @@ func StartBatchRun(urlBase string, apiToken string, organization string, project
 			}
 		}
 	}
+  resource := "/{organization}/{project}/batch-run/"  // normal batch run
 	if isCrossBatchRunSetting {
-		res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
-			SetHeader("Content-Type", "application/json").
-			SetBody(setting).
-			SetResult(CrossBatchRun{}).
-			Post("/{organization}/{project}/cross-batch-run/")
-		if err != nil {
-			panic(err)
-		}
-		if exitErr := handleError(res); exitErr != nil {
-			return []BatchRun{}, exitErr
-		}
-		crossBatchRun := res.Result().(*CrossBatchRun)
-		return crossBatchRun.Batch_Runs, nil
-	} else { // normal batch run
-		res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
-			SetHeader("Content-Type", "application/json").
-			SetBody(setting).
-			SetResult(BatchRun{}).
-			Post("/{organization}/{project}/batch-run/")
-		if err != nil {
-			panic(err)
-		}
-		if exitErr := handleError(res); exitErr != nil {
-			return []BatchRun{}, exitErr
-		}
-		batchRun := res.Result().(*BatchRun)
-		return []BatchRun{*batchRun}, nil
+		resource = "/{organization}/{project}/cross-batch-run/"
 	}
+	res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
+		SetHeader("Content-Type", "application/json").
+		SetBody(setting).
+		SetResult(BatchRun{}).
+		Post(resource)
+	if err != nil {
+		panic(err)
+	}
+	if exitErr := handleError(res); exitErr != nil {
+		return []BatchRun{}, exitErr
+	}
+	batchRun := res.Result().(*BatchRun)
+	return []BatchRun{*batchRun}, nil
 }
 
 // GetBatchRun retrieves status and number of test cases executed of a specified batch run
