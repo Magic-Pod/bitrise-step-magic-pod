@@ -1,6 +1,8 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/Magic-Pod/magic-pod-api-client v0.0.0-20200517225049-a961321ddbcc h1:EoB9osNZpBx5U7Rc0AohsAerC1UKC3GH0bsn9ypJHBg=
 github.com/Magic-Pod/magic-pod-api-client v0.0.0-20200517225049-a961321ddbcc/go.mod h1:BUi+TOp4CBcVNFGfS+XzmoO/az+YGlPJ41An2c5Xr/A=
+github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201101085056-07a201130634 h1:q0n3eprHrP0EbZRZG2iNkaSABOXPZB4bzJOwF0ujRfo=
+github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201101085056-07a201130634/go.mod h1:BUi+TOp4CBcVNFGfS+XzmoO/az+YGlPJ41An2c5Xr/A=
 github.com/bitrise-io/go-steputils v0.0.0-20200227150459-94490ca44ddb h1:677LVb0M4oVmFDqPKvILC+cfuuxLeMIT3pMs3Z4PuEE=
 github.com/bitrise-io/go-steputils v0.0.0-20200227150459-94490ca44ddb/go.mod h1:GXgBV3Frd3qcnsg+NryQTyx1CHjZHr/2w7Bx4WAcB4o=
 github.com/bitrise-io/go-utils v0.0.0-20200224122728-e212188d99b4 h1:35ImX3SrDgRYVDPue7NhybnQ3quuVrTQzjjul+R3aUI=
@@ -63,6 +65,7 @@ golang.org/x/tools v0.0.0-20200130002326-2f3ba24bd6e7/go.mod h1:TB2adYChydJhpapK
 golang.org/x/tools v0.0.0-20200220224806-8a925fa4c0df/go.mod h1:TB2adYChydJhpapKDTa4BR/hXlZSLoq2Wpct/0txZ28=
 golang.org/x/xerrors v0.0.0-20191011141410-1b5146add898/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/resty.v1 v1.11.0 h1:z5nqGs/W/h91PLOc+WZefPj8rRZe8Ctlgxg/AtbJ+NE=
 gopkg.in/resty.v1 v1.11.0/go.mod h1:mDo4pnntr5jdWRML875a/NmxYqAlA73dVijT2AXvQQo=
 gopkg.in/resty.v1 v1.12.0/go.mod h1:mDo4pnntr5jdWRML875a/NmxYqAlA73dVijT2AXvQQo=
 gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=

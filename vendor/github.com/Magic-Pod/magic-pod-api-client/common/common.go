@@ -3,6 +3,7 @@ package common
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -25,6 +26,11 @@ type BatchRun struct {
 		Unresolved int
 		Total      int
 	}
+}
+
+// BatchRuns stands for a group of batch runs executed on the server
+type BatchRuns struct {
+	Batch_Runs []BatchRun
 }
 
 // UploadFile stands for a file to be uploaded to the server
@@ -120,7 +126,7 @@ func mergeTestSettingsNumberToSetting(testSettingsMap map[string]interface{}, ha
 }
 
 // StartBatchRun starts a batch run or a cross batch run on the server
-func StartBatchRun(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string, testSettingsNumber int, setting string) ([]BatchRun, *cli.ExitError) {
+func StartBatchRun(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string, testSettingsNumber int, setting string) (BatchRun, *cli.ExitError) {
 	var testSettings interface{}
 	isCrossBatchRunSetting := (testSettingsNumber != 0)
 	if setting == "" {
@@ -134,7 +140,7 @@ func StartBatchRun(urlBase string, apiToken string, organization string, project
 				testSettingsNumberInJSON, hasTestSettingsNumber := testSettingsMap["test_settings_number"]
 				if testSettingsNumber != 0 {
 					if hasTestSettingsNumber && testSettingsNumber != testSettingsNumberInJSON {
-						return []BatchRun{}, cli.NewExitError("--test_settings_number and --setting have different number", 1)
+						return BatchRun{}, cli.NewExitError("--test_settings_number and --setting have different number", 1)
 					}
 					setting = mergeTestSettingsNumberToSetting(testSettingsMap, hasTestSettings, testSettingsNumber)
 				}
@@ -142,23 +148,35 @@ func StartBatchRun(urlBase string, apiToken string, organization string, project
 			}
 		}
 	}
-  resource := "/{organization}/{project}/batch-run/"  // normal batch run
 	if isCrossBatchRunSetting {
-		resource = "/{organization}/{project}/cross-batch-run/"
+		res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
+			SetHeader("Content-Type", "application/json").
+			SetBody(setting).
+			SetResult(BatchRun{}).
+			Post("/{organization}/{project}/cross-batch-run/")
+		if err != nil {
+			panic(err)
+		}
+		if exitErr := handleError(res); exitErr != nil {
+			return BatchRun{}, exitErr
+		}
+		batchRun := res.Result().(*BatchRun)
+		return *batchRun, nil
+	} else { // normal batch run
+		res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
+			SetHeader("Content-Type", "application/json").
+			SetBody(setting).
+			SetResult(BatchRun{}).
+			Post("/{organization}/{project}/batch-run/")
+		if err != nil {
+			panic(err)
+		}
+		if exitErr := handleError(res); exitErr != nil {
+			return BatchRun{}, exitErr
+		}
+		batchRun := res.Result().(*BatchRun)
+		return *batchRun, nil
 	}
-	res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
-		SetHeader("Content-Type", "application/json").
-		SetBody(setting).
-		SetResult(BatchRun{}).
-		Post(resource)
-	if err != nil {
-		panic(err)
-	}
-	if exitErr := handleError(res); exitErr != nil {
-		return []BatchRun{}, exitErr
-	}
-	batchRun := res.Result().(*BatchRun)
-	return []BatchRun{*batchRun}, nil
 }
 
 // GetBatchRun retrieves status and number of test cases executed of a specified batch run
@@ -178,6 +196,24 @@ func GetBatchRun(urlBase string, apiToken string, organization string, project s
 	return res.Result().(*BatchRun), nil
 }
 
+func LatestBatchRunNo(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string) (int, *cli.ExitError) {
+	res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
+		SetQueryParam("count", "1").
+		SetResult(BatchRuns{}).
+		Get("/{organization}/{project}/batch-runs/")
+	if err != nil {
+		panic(err)
+	}
+	if exitErr := handleError(res); exitErr != nil {
+		return 0, exitErr
+	}
+	batchRuns := res.Result().(*BatchRuns).Batch_Runs
+	if len(batchRuns) == 0 {
+		return 0, cli.NewExitError("no batch run exists in this project", 1)
+	}
+	return batchRuns[0].Batch_Run_Number, nil
+}
+
 // DeleteApp deletes app/ipa/apk file on the server
 func DeleteApp(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string, appFileNumber int) *cli.ExitError {
 	res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
@@ -192,6 +228,42 @@ func DeleteApp(urlBase string, apiToken string, organization string, project str
 	return nil
 }
 
+func GetScreenshots(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string, batchRunNumber int, downloadPath string, fileIndexType string, fileNameBodyType string, downloadType string, maskDynamicallyChangedArea bool) error {
+	var maskDynamicallyChangedAreaStr string
+	if maskDynamicallyChangedArea {
+		maskDynamicallyChangedAreaStr = "true"
+	} else {
+		maskDynamicallyChangedAreaStr = "false"
+	}
+	res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
+		SetPathParams(map[string]string{
+			"batch_run_number": strconv.Itoa(batchRunNumber),
+		}).
+		SetQueryParam("file_index_type", fileIndexType).
+		SetQueryParam("file_name_body_type", fileNameBodyType).
+		SetQueryParam("download_type", downloadType).
+		SetQueryParam("mask_dynamically_changed_area", maskDynamicallyChangedAreaStr).
+		SetOutput(downloadPath).
+		Get("/{organization}/{project}/batch-runs/{batch_run_number}/screenshots/")
+	if err != nil {
+		panic(err)
+	}
+	if res.StatusCode() != 200 {
+		// response body is included not in res but in downloadPath file,
+		responseText, err := ioutil.ReadFile(downloadPath)
+		if err != nil {
+			panic(err)
+		}
+		// remove downloadPath since it contains not zip contents but just error information
+		err = os.Remove(downloadPath)
+		if err != nil {
+			panic(err)
+		}
+		return cli.NewExitError(fmt.Sprintf("%s: %s", res.Status(), responseText), 1)
+	}
+	return nil
+}
+
 func printMessage(printResult bool, format string, args ...interface{}) {
 	if printResult {
 		fmt.Printf(format, args...)
@@ -201,23 +273,20 @@ func printMessage(printResult bool, format string, args ...interface{}) {
 // ExecuteBatchRun starts batch run(s) and wait for its completion with showing progress
 func ExecuteBatchRun(urlBase string, apiToken string, organization string, project string,
 	httpHeadersMap map[string]string, testSettingsNumber int, setting string,
-	waitForResult bool, waitLimit int, printResult bool) ([]BatchRun, bool, bool, *cli.ExitError) {
+	waitForResult bool, waitLimit int, printResult bool) (bool, bool, *cli.ExitError) {
 	// send batch run start request
-	batchRuns, exitErr := StartBatchRun(urlBase, apiToken, organization, project, httpHeadersMap, testSettingsNumber, setting)
+	batchRun, exitErr := StartBatchRun(urlBase, apiToken, organization, project, httpHeadersMap, testSettingsNumber, setting)
 	if exitErr != nil {
-		return nil, false, false, exitErr
+		return false, false, exitErr
 	}
 
-	crossBatchRunTotalTestCount := 0
+	crossBatchRunTotalTestCount := batchRun.Test_Cases.Total
 	printMessage(printResult, "test result page:\n")
-	for _, batchRun := range batchRuns {
-		printMessage(printResult, "%s\n", batchRun.Url)
-		crossBatchRunTotalTestCount += batchRun.Test_Cases.Total
-	}
+	printMessage(printResult, "%s\n", batchRun.Url)
 
 	// finish before the test finish
 	if !waitForResult {
-		return batchRuns, false, false, nil
+		return false, false, nil
 	}
 
 	const initRetryInterval = 10 // retry more frequently at first
@@ -231,80 +300,77 @@ func ExecuteBatchRun(urlBase string, apiToken string, organization string, proje
 	passedSeconds := 0
 	existsErr := false
 	existsUnresolved := false
-	for key, batchRun := range batchRuns {
-		printMessage(printResult, "\n#%d wait until %d tests to be finished.. \n", batchRun.Batch_Run_Number, batchRun.Test_Cases.Total)
-		prevFinished := 0
-		for {
-			batchRun, exitErr := GetBatchRun(urlBase, apiToken, organization, project, httpHeadersMap, batchRun.Batch_Run_Number)
-			if exitErr != nil {
-				if printResult {
-					fmt.Print(exitErr)
+	printMessage(printResult, "\n#%d wait until %d tests to be finished.. \n", batchRun.Batch_Run_Number, batchRun.Test_Cases.Total)
+	prevFinished := 0
+	for {
+		batchRunUnderProgress, exitErr := GetBatchRun(urlBase, apiToken, organization, project, httpHeadersMap, batchRun.Batch_Run_Number)
+		if exitErr != nil {
+			if printResult {
+				fmt.Print(exitErr)
+			}
+			existsErr = true
+			break // give up the wait here
+		}
+		finished := batchRunUnderProgress.Test_Cases.Succeeded + batchRunUnderProgress.Test_Cases.Failed + batchRunUnderProgress.Test_Cases.Aborted + batchRunUnderProgress.Test_Cases.Unresolved
+		printMessage(printResult, ".") // show progress to prevent "long time no output" error on CircleCI etc
+		// output progress
+		if finished != prevFinished {
+			notSuccessfulCount := ""
+			if batchRunUnderProgress.Test_Cases.Failed > 0 {
+				notSuccessfulCount = fmt.Sprintf("%d failed", batchRunUnderProgress.Test_Cases.Failed)
+			}
+			if batchRunUnderProgress.Test_Cases.Unresolved > 0 {
+				if notSuccessfulCount != "" {
+					notSuccessfulCount += ", "
+				}
+				notSuccessfulCount += fmt.Sprintf("%d unresolved", batchRunUnderProgress.Test_Cases.Unresolved)
+			}
+			if notSuccessfulCount != "" {
+				notSuccessfulCount = fmt.Sprintf(" (%s)", notSuccessfulCount)
+			}
+			printMessage(printResult, "%d/%d finished%s\n", finished, batchRun.Test_Cases.Total, notSuccessfulCount)
+			prevFinished = finished
+		}
+		if batchRunUnderProgress.Status != "running" {
+			if batchRunUnderProgress.Test_Cases.Unresolved > 0 {
+				existsUnresolved = true
+			}
+			if batchRunUnderProgress.Status == "succeeded" {
+				printMessage(printResult, "batch run succeeded\n")
+				break
+			} else if batchRunUnderProgress.Status == "failed" {
+				if batchRunUnderProgress.Test_Cases.Failed > 0 {
+					unresolved := ""
+					if existsUnresolved {
+						unresolved = fmt.Sprintf(", %d unresolved", batchRunUnderProgress.Test_Cases.Unresolved)
+					}
+					printMessage(printResult, "batch run failed (%d failed%s)\n", batchRunUnderProgress.Test_Cases.Failed, unresolved)
+				} else {
+					printMessage(printResult, "batch run failed\n")
 				}
 				existsErr = true
-				break // give up the wait here
-			}
-			batchRuns[key] = *batchRun
-			finished := batchRun.Test_Cases.Succeeded + batchRun.Test_Cases.Failed + batchRun.Test_Cases.Aborted + batchRun.Test_Cases.Unresolved
-			printMessage(printResult, ".") // show progress to prevent "long time no output" error on CircleCI etc
-			// output progress
-			if finished != prevFinished {
-				notSuccessfulCount := ""
-				if batchRun.Test_Cases.Failed > 0 {
-					notSuccessfulCount = fmt.Sprintf("%d failed", batchRun.Test_Cases.Failed)
-				}
-				if batchRun.Test_Cases.Unresolved > 0 {
-					if notSuccessfulCount != "" {
-						notSuccessfulCount += ", "
-					}
-					notSuccessfulCount += fmt.Sprintf("%d unresolved", batchRun.Test_Cases.Unresolved)
-				}
-				if notSuccessfulCount != "" {
-					notSuccessfulCount = fmt.Sprintf(" (%s)", notSuccessfulCount)
-				}
-				printMessage(printResult, "%d/%d finished%s\n", finished, batchRun.Test_Cases.Total, notSuccessfulCount)
-				prevFinished = finished
-			}
-			if batchRun.Status != "running" {
-				if batchRun.Test_Cases.Unresolved > 0 {
-					existsUnresolved = true
-				}
-				if batchRun.Status == "succeeded" {
-					printMessage(printResult, "batch run succeeded\n")
-					break
-				} else if batchRun.Status == "failed" {
-					if batchRun.Test_Cases.Failed > 0 {
-						unresolved := ""
-						if existsUnresolved {
-							unresolved = fmt.Sprintf(", %d unresolved", batchRun.Test_Cases.Unresolved)
-						}
-						printMessage(printResult, "batch run failed (%d failed%s)\n", batchRun.Test_Cases.Failed, unresolved)
-					} else {
-						printMessage(printResult, "batch run failed\n")
-					}
-					existsErr = true
-					break
-				} else if batchRun.Status == "unresolved" {
-					printMessage(printResult, "batch run unresolved (%d unresolved)\n", batchRun.Test_Cases.Unresolved)
-					break
-				} else if batchRun.Status == "aborted" {
-					printMessage(printResult, "batch run aborted\n")
-					existsErr = true
-					break
-				} else {
-					panic(batchRun.Status)
-				}
-			}
-			if passedSeconds > limitSeconds {
-				return batchRuns, existsErr, existsUnresolved, cli.NewExitError("batch run never finished", 1)
-			}
-			if passedSeconds < 120 {
-				time.Sleep(initRetryInterval * time.Second)
-				passedSeconds += initRetryInterval
+				break
+			} else if batchRunUnderProgress.Status == "unresolved" {
+				printMessage(printResult, "batch run unresolved (%d unresolved)\n", batchRunUnderProgress.Test_Cases.Unresolved)
+				break
+			} else if batchRunUnderProgress.Status == "aborted" {
+				printMessage(printResult, "batch run aborted\n")
+				existsErr = true
+				break
 			} else {
-				time.Sleep(retryInterval * time.Second)
-				passedSeconds += retryInterval
+				panic(batchRunUnderProgress.Status)
 			}
 		}
+		if passedSeconds > limitSeconds {
+			return existsErr, existsUnresolved, cli.NewExitError("batch run never finished", 1)
+		}
+		if passedSeconds < 120 {
+			time.Sleep(initRetryInterval * time.Second)
+			passedSeconds += initRetryInterval
+		} else {
+			time.Sleep(retryInterval * time.Second)
+			passedSeconds += retryInterval
+		}
 	}
-	return batchRuns, existsErr, existsUnresolved, nil
+	return existsErr, existsUnresolved, nil
 }
