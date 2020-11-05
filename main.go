@@ -52,7 +52,7 @@ func deleteAppFile(cfg Config, appFileNumber int) {
 	}
 }
 
-func startBatchRun(cfg Config, appFileNumber int) ([]common.BatchRun, *cli.ExitError) {
+func startBatchRun(cfg Config, appFileNumber int) (*common.BatchRun, *cli.ExitError) {
 	log.Infof("test settings number = %d", cfg.TestSettingsNumber)
 	return common.StartBatchRun(cfg.BaseURL, string(cfg.APIToken), cfg.OrganizationName, cfg.ProjectName, make(map[string]string), cfg.TestSettingsNumber, "")
 }
@@ -123,7 +123,7 @@ func main() {
 
 	log.Infof(settingsStr)
 
-	batchRuns, existsErr, existsUnresolved, cliErr := common.ExecuteBatchRun(cfg.BaseURL, string(cfg.APIToken),
+	batchRun, existsErr, existsUnresolved, cliErr := common.ExecuteBatchRun(cfg.BaseURL, string(cfg.APIToken),
 		cfg.OrganizationName, cfg.ProjectName, make(map[string]string), cfg.TestSettingsNumber,
 		settingsStr, cfg.WaitForResult, cfg.WaitLimit, true)
 	if cliErr != nil {
@@ -148,7 +148,7 @@ func main() {
 		}
 	}
 
-	resultBytes, err := json.Marshal(batchRuns)
+	resultBytes, err := json.Marshal(batchRun)
 	result := string(resultBytes)
 	if err != nil {
 		failf(err.Error())

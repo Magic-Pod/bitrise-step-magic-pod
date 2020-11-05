@@ -1,4 +1,4 @@
-# github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201101085056-07a201130634
+# github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201105033644-ffea7384265d
 github.com/Magic-Pod/magic-pod-api-client/common
 # github.com/bitrise-io/go-utils v0.0.0-20200224122728-e212188d99b4
 github.com/bitrise-io/go-utils/colorstring

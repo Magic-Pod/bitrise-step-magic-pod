@@ -3,6 +3,8 @@ github.com/Magic-Pod/magic-pod-api-client v0.0.0-20200517225049-a961321ddbcc h1:
 github.com/Magic-Pod/magic-pod-api-client v0.0.0-20200517225049-a961321ddbcc/go.mod h1:BUi+TOp4CBcVNFGfS+XzmoO/az+YGlPJ41An2c5Xr/A=
 github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201101085056-07a201130634 h1:q0n3eprHrP0EbZRZG2iNkaSABOXPZB4bzJOwF0ujRfo=
 github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201101085056-07a201130634/go.mod h1:BUi+TOp4CBcVNFGfS+XzmoO/az+YGlPJ41An2c5Xr/A=
+github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201105033644-ffea7384265d h1:ogvIuIbTFxA9cJtqHu+i/lwJnYnamGgzRMZZ2hYO5Fs=
+github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201105033644-ffea7384265d/go.mod h1:BUi+TOp4CBcVNFGfS+XzmoO/az+YGlPJ41An2c5Xr/A=
 github.com/bitrise-io/go-steputils v0.0.0-20200227150459-94490ca44ddb h1:677LVb0M4oVmFDqPKvILC+cfuuxLeMIT3pMs3Z4PuEE=
 github.com/bitrise-io/go-steputils v0.0.0-20200227150459-94490ca44ddb/go.mod h1:GXgBV3Frd3qcnsg+NryQTyx1CHjZHr/2w7Bx4WAcB4o=
 github.com/bitrise-io/go-utils v0.0.0-20200224122728-e212188d99b4 h1:35ImX3SrDgRYVDPue7NhybnQ3quuVrTQzjjul+R3aUI=
