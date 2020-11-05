@@ -1,8 +1,4 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/Magic-Pod/magic-pod-api-client v0.0.0-20200517225049-a961321ddbcc h1:EoB9osNZpBx5U7Rc0AohsAerC1UKC3GH0bsn9ypJHBg=
-github.com/Magic-Pod/magic-pod-api-client v0.0.0-20200517225049-a961321ddbcc/go.mod h1:BUi+TOp4CBcVNFGfS+XzmoO/az+YGlPJ41An2c5Xr/A=
-github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201101085056-07a201130634 h1:q0n3eprHrP0EbZRZG2iNkaSABOXPZB4bzJOwF0ujRfo=
-github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201101085056-07a201130634/go.mod h1:BUi+TOp4CBcVNFGfS+XzmoO/az+YGlPJ41An2c5Xr/A=
 github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201105033644-ffea7384265d h1:ogvIuIbTFxA9cJtqHu+i/lwJnYnamGgzRMZZ2hYO5Fs=
 github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201105033644-ffea7384265d/go.mod h1:BUi+TOp4CBcVNFGfS+XzmoO/az+YGlPJ41An2c5Xr/A=
 github.com/bitrise-io/go-steputils v0.0.0-20200227150459-94490ca44ddb h1:677LVb0M4oVmFDqPKvILC+cfuuxLeMIT3pMs3Z4PuEE=
