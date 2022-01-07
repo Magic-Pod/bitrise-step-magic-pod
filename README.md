@@ -1,6 +1,6 @@
 # magic-pod
 
-This step enables E2E testing powered by [Magic Pod](https://magic-pod.com)
+This step enables E2E testing powered by [MagicPod](https://magic-pod.com)
 
 
 ## How to use this Step
