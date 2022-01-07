@@ -1,13 +1,12 @@
-# github.com/Magic-Pod/magic-pod-api-client v0.0.0-20201105033644-ffea7384265d
-## explicit; go 1.13
+# github.com/Magic-Pod/magic-pod-api-client v0.0.0-20220105012411-91f74e99e034
+## explicit; go 1.17
 github.com/Magic-Pod/magic-pod-api-client/common
-# github.com/bitrise-io/go-steputils v0.0.0-20200227150459-94490ca44ddb
-## explicit
-# github.com/bitrise-io/go-utils v0.0.0-20200224122728-e212188d99b4
+# github.com/bitrise-io/go-steputils v1.0.1
+## explicit; go 1.15
+# github.com/bitrise-io/go-utils v1.0.1
 ## explicit; go 1.13
 github.com/bitrise-io/go-utils/colorstring
 github.com/bitrise-io/go-utils/command
-github.com/bitrise-io/go-utils/errorutil
 github.com/bitrise-io/go-utils/log
 github.com/bitrise-io/go-utils/parseutil
 github.com/bitrise-io/go-utils/pathutil
@@ -27,21 +26,23 @@ github.com/dsnet/compress/bzip2/internal/sais
 github.com/dsnet/compress/internal
 github.com/dsnet/compress/internal/errors
 github.com/dsnet/compress/internal/prefix
-# github.com/frankban/quicktest v1.14.0
-## explicit; go 1.13
 # github.com/go-resty/resty v0.0.0-00010101000000-000000000000 => gopkg.in/resty.v1 v1.11.0
 ## explicit
 github.com/go-resty/resty
-# github.com/golang/snappy v0.0.1
+# github.com/golang/snappy v0.0.4
 ## explicit
 github.com/golang/snappy
+# github.com/google/go-cmp v0.5.6
+## explicit; go 1.8
+# github.com/kr/pretty v0.3.0
+## explicit; go 1.12
 # github.com/mholt/archiver v3.1.1+incompatible
 ## explicit
 github.com/mholt/archiver
-# github.com/nwaples/rardecode v1.1.0
+# github.com/nwaples/rardecode v1.1.2
 ## explicit
 github.com/nwaples/rardecode
-# github.com/pierrec/lz4 v2.5.2+incompatible
+# github.com/pierrec/lz4 v2.6.1+incompatible
 ## explicit
 github.com/pierrec/lz4
 github.com/pierrec/lz4/internal/xxh32
@@ -51,7 +52,7 @@ github.com/russross/blackfriday/v2
 # github.com/shurcooL/sanitized_anchor_name v1.0.0
 ## explicit
 github.com/shurcooL/sanitized_anchor_name
-# github.com/ulikunitz/xz v0.5.7
+# github.com/ulikunitz/xz v0.5.10
 ## explicit; go 1.12
 github.com/ulikunitz/xz
 github.com/ulikunitz/xz/internal/hash
@@ -63,9 +64,7 @@ github.com/urfave/cli
 # github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8
 ## explicit
 github.com/xi2/xz
-# golang.org/x/net v0.0.0-20190620200207-3b0461eec859
-## explicit; go 1.11
+# golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2
+## explicit; go 1.17
 golang.org/x/net/publicsuffix
-# gopkg.in/resty.v1 v1.12.0
-## explicit
 # github.com/go-resty/resty => gopkg.in/resty.v1 v1.11.0

@@ -24,7 +24,6 @@ workflows:
   test:
     steps:
     - go-list:
-    - golint:
     - change-workdir:
         title: Switch working dir to test / _tmp dir
         description: |-
