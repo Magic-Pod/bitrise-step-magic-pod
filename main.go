@@ -34,7 +34,7 @@ func failf(format string, v ...interface{}) {
 
 func uploadAppFile(cfg Config) int {
 	appPath := cfg.AppPath
-	log.Infof("Upload app file %s to Magic Pod cloud", appPath)
+	log.Infof("Upload app file %s to MagicPod cloud", appPath)
 	fileNo, err := common.UploadApp(cfg.BaseURL, string(cfg.APIToken), cfg.OrganizationName, cfg.ProjectName, make(map[string]string), appPath)
 	if err != nil {
 		failf(err.Error())

@@ -8,11 +8,11 @@
 # - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
 
 title: |-
-  Magic Pod
+  MagicPod
 summary: |
-  Magic Pod UI test step
+  MagicPod UI test step
 description: |
-  You can execute E2E testing of iOS/Android apps on Magic Pod (https://magic-pod.com).
+  You can execute E2E testing of iOS/Android apps on MagicPod (https://magic-pod.com).
 website: https://github.com/magic-Pod/bitrise-step-magic-pod
 source_code_url: https://github.com/magic-Pod/bitrise-step-magic-pod
 support_url: https://github.com/magic-Pod/bitrise-step-magic-pod/issues
@@ -49,9 +49,9 @@ toolkit:
 inputs:
   - magic_pod_api_token:
     opts:
-      title: "Magic Pod API token"
+      title: "MagicPod API token"
       description: |-
-        Access token to use Magic Pod Web API.
+        Access token to use MagicPod Web API.
         
         * Key: Arbitrary new Secret Env name like `MAGIC_POD_API_TOKEN`
         * Value: API token copied from https://magic-pod.com/accounts/api-token/. 
@@ -62,7 +62,7 @@ inputs:
     opts:
       title: "Organization name"
       description : |-
-        Organization name in Magic Pod.
+        Organization name in MagicPod.
         Please be sure to use **organization name**, not **display name**.
       is_required: true
       is_expand: true
@@ -70,7 +70,7 @@ inputs:
     opts:
       title: "Project name"
       description : |-
-        Project name in Magic Pod.
+        Project name in MagicPod.
         Please be sure to use **project name**, not **display name**.
       is_required: true
       is_expand: true
@@ -78,7 +78,7 @@ inputs:
     opts:
       title: "Test settings number"
       description: |-
-        Test settings number specified on Magic Pod project batch run page.
+        Test settings number specified on MagicPod project batch run page.
       is_required: false
   - test_settings:
     opts:
@@ -93,15 +93,15 @@ inputs:
       title: "App path"
       description: |-
         Path to app (apk/app/ipa) file you want to test.
-        Note that you need to select _App file (cloud upload)_ for _App Type_ on Magic Pod project batch run page.
-        * *Warning: The file of the specified path is uploaded to Magic Pod cloud and can be seen by project members.*
+        Note that you need to select _App file (cloud upload)_ for _App Type_ on MagicPod project batch run page.
+        * *Warning: The file of the specified path is uploaded to MagicPod cloud and can be seen by project members.*
         * For iOS simulator testing, specify the directory _xx.app_ so that included files are automatically ziped into one file before uploading. 
       is_expand: true
   - wait_for_result: "true"
     opts:
       title: "Wait for result"
       description: |-
-        If set to true, this step waits until Magic Pod testing is completed and succeeds only when the test is successful.
+        If set to true, this step waits until MagicPod testing is completed and succeeds only when the test is successful.
         Otherwise this step immediately exits with success.
   - wait_limit: "0"
     opts:
@@ -117,7 +117,7 @@ inputs:
       value_options: ["Not delete", "Always delete", "Delete only when tests succeeded"]
   - base_url: "https://magic-pod.com"
     opts:
-      title: "Magic Pod web API URL"
+      title: "MagicPod web API URL"
       description: |-
         Cannot be changed
       is_dont_change_value: true
