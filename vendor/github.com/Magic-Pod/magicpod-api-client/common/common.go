@@ -107,7 +107,7 @@ func mergeTestSettingsNumberToSetting(testSettingsMap map[string]interface{}, ha
 		miscSettings := make(map[string]interface{})
 		keysToDelete := []string{}
 		for k, v := range testSettingsMap {
-			if k != "test_settings_number" && k != "concurrency" {
+			if k != "test_settings_number" && k != "concurrency" && k != "test_settings_name" {
 				miscSettings[k] = v
 				keysToDelete = append(keysToDelete, k)
 			}
@@ -226,7 +226,7 @@ func DeleteApp(urlBase string, apiToken string, organization string, project str
 	return nil
 }
 
-func GetScreenshots(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string, batchRunNumber int, downloadPath string, fileIndexType string, fileNameBodyType string, downloadType string, maskDynamicallyChangedArea bool) error {
+func PrepareScreenshots(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string, batchRunNumber int, fileIndexType string, fileNameBodyType string, downloadType string, maskDynamicallyChangedArea bool) int {
 	var maskDynamicallyChangedAreaStr string
 	if maskDynamicallyChangedArea {
 		maskDynamicallyChangedAreaStr = "true"
@@ -241,11 +241,41 @@ func GetScreenshots(urlBase string, apiToken string, organization string, projec
 		SetQueryParam("file_name_body_type", fileNameBodyType).
 		SetQueryParam("download_type", downloadType).
 		SetQueryParam("mask_dynamically_changed_area", maskDynamicallyChangedAreaStr).
-		SetOutput(downloadPath).
-		Get("/{organization}/{project}/batch-runs/{batch_run_number}/screenshots/")
+		SetResult(map[string]int{}).
+		Post("/{organization}/{project}/batch-runs/{batch_run_number}/screenshots/")
 	if err != nil {
 		panic(err)
 	}
+	responseJson := res.Result().(*map[string]int)
+	return (*responseJson)["batch_task_id"]
+}
+
+func GetBatchTaskStatus(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string, batchTaskId int) string {
+	res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
+		SetPathParams(map[string]string{
+			"batch_task_id": strconv.Itoa(batchTaskId),
+		}).
+		SetResult(map[string]string{}).
+		Get("/{organization}/{project}/batch-task/{batch_task_id}/")
+	if err != nil {
+		panic(err)
+	}
+	responseJson := res.Result().(*map[string]string)
+	return (*responseJson)["status"]
+}
+
+func DownloadPreparedScreenshots(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string, batchTaskId int, downloadPath string) error {
+	res, err := createBaseRequest(urlBase, apiToken, organization, project, httpHeadersMap).
+		SetPathParams(map[string]string{
+			"batch_task_id": strconv.Itoa(batchTaskId),
+		}).
+		SetResult(map[string]string{}).
+		SetOutput(downloadPath).
+		Get("/{organization}/{project}/screenshots/{batch_task_id}/")
+	if err != nil {
+		panic(err)
+	}
+
 	if res.StatusCode() != 200 {
 		// response body is included not in res but in downloadPath file,
 		responseText, err := ioutil.ReadFile(downloadPath)
@@ -262,6 +292,47 @@ func GetScreenshots(urlBase string, apiToken string, organization string, projec
 	return nil
 }
 
+func GetScreenshots(urlBase string, apiToken string, organization string, project string, httpHeadersMap map[string]string,
+	batchRunNumber int, downloadPath string, fileIndexType string, fileNameBodyType string, downloadType string,
+	maskDynamicallyChangedArea bool, waitLimit int, printResult bool) error {
+	batchTaskId := PrepareScreenshots(urlBase, apiToken, organization, project, httpHeadersMap, batchRunNumber, fileIndexType, fileNameBodyType, downloadType, maskDynamicallyChangedArea)
+	printMessage(printResult, "Preparing screenshots download.. \n")
+	interval := 5
+	passedSeconds := 0
+	actualWaitLimit := waitLimit
+	defaultTimeout := 300
+	if waitLimit == -1 {
+		actualWaitLimit = defaultTimeout
+	}
+	for {
+		status := GetBatchTaskStatus(urlBase, apiToken, organization, project, httpHeadersMap, batchTaskId)
+		if status == "succeeded" {
+			printMessage(printResult, "\nDone.\n")
+			break
+		} else if status == "running" {
+			printMessage(printResult, ".")
+		} else {
+			return cli.NewExitError("\nScreenshots download failed unexpectedly", 1)
+		}
+		if passedSeconds > 60 {
+			interval = 10
+		}
+		if passedSeconds > 120 {
+			interval = 30
+		}
+		if passedSeconds >= actualWaitLimit {
+			errorMessage := fmt.Sprintf("\nReached timeout of %d seconds while waiting for screenshots download.", actualWaitLimit)
+			if waitLimit == -1 {
+				errorMessage += fmt.Sprintf("  Default timeout is %d seconds.  If it's not enough, please specify a longer value by --wait_limit or -w option.", defaultTimeout)
+			}
+			return cli.NewExitError(errorMessage, 1)
+		}
+		time.Sleep(time.Duration(interval) * time.Second)
+		passedSeconds += interval
+	}
+	return DownloadPreparedScreenshots(urlBase, apiToken, organization, project, httpHeadersMap, batchTaskId, downloadPath)
+}
+
 func printMessage(printResult bool, format string, args ...interface{}) {
 	if printResult {
 		fmt.Printf(format, args...)
@@ -271,7 +342,7 @@ func printMessage(printResult bool, format string, args ...interface{}) {
 // ExecuteBatchRun starts batch run(s) and wait for its completion with showing progress
 func ExecuteBatchRun(urlBase string, apiToken string, organization string, project string,
 	httpHeadersMap map[string]string, testSettingsNumber int, setting string,
-	waitForResult bool, waitLimit int, printResult bool) (*BatchRun /*on which magic-pod bitrise step depends */, bool, bool, *cli.ExitError) {
+	waitForResult bool, waitLimit int, printResult bool) (*BatchRun /*on which magicpod bitrise step depends */, bool, bool, *cli.ExitError) {
 	// send batch run start request
 	batchRun, exitErr := StartBatchRun(urlBase, apiToken, organization, project, httpHeadersMap, testSettingsNumber, setting)
 	if exitErr != nil {
