@@ -3,7 +3,7 @@ module github.com/magic-pod/bitrise-step-magic-pod
 go 1.17
 
 require (
-	github.com/Magic-Pod/magicpod-api-client v0.0.0-20220125023049-2dbbecc080da
+	github.com/Magic-Pod/magicpod-api-client v0.0.0-20220804002144-74e6d878ec2b
 	github.com/bitrise-io/go-utils v1.0.1
 	github.com/bitrise-tools/go-steputils v0.0.0-20200227150459-94490ca44ddb
 	github.com/urfave/cli v1.22.5

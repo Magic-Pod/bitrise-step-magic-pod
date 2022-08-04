@@ -1,4 +1,4 @@
-# github.com/Magic-Pod/magicpod-api-client v0.0.0-20220125023049-2dbbecc080da
+# github.com/Magic-Pod/magicpod-api-client v0.0.0-20220804002144-74e6d878ec2b
 ## explicit; go 1.17
 github.com/Magic-Pod/magicpod-api-client/common
 # github.com/bitrise-io/go-steputils v1.0.1

@@ -1,6 +1,6 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/Magic-Pod/magicpod-api-client v0.0.0-20220125023049-2dbbecc080da h1:D+Gg+jeGLT+cMLjaXNkq4P6yYalSzN0LgvOOkuzIW44=
-github.com/Magic-Pod/magicpod-api-client v0.0.0-20220125023049-2dbbecc080da/go.mod h1:s0pHkao6lmevevvVMp2buvVl2u3BBOnwSpyxR3czShk=
+github.com/Magic-Pod/magicpod-api-client v0.0.0-20220804002144-74e6d878ec2b h1:/ZCnmxc/lF8NYUGrTlKeaD+NkHc0P9XdDz9WjtdzwU0=
+github.com/Magic-Pod/magicpod-api-client v0.0.0-20220804002144-74e6d878ec2b/go.mod h1:s0pHkao6lmevevvVMp2buvVl2u3BBOnwSpyxR3czShk=
 github.com/bitrise-io/go-steputils v1.0.1 h1:lwPl2W1njfANrBoTCkuqOOYbTha263ZFqoWQH0fwhaY=
 github.com/bitrise-io/go-steputils v1.0.1/go.mod h1:YIUaQnIAyK4pCvQG0hYHVkSzKNT9uL2FWmkFNW4mfNI=
 github.com/bitrise-io/go-utils v1.0.1 h1:e7mepVBkVN1DXRPESNXb0djEw6bxB6B93p/Q74zzcvk=
