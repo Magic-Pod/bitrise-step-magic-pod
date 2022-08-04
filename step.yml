@@ -12,7 +12,7 @@ title: |-
 summary: |
   MagicPod UI test step
 description: |
-  You can execute E2E testing of iOS/Android apps on MagicPod (https://magic-pod.com).
+  You can execute E2E testing of iOS/Android apps on MagicPod (https://magicpod.com).
 website: https://github.com/magic-Pod/bitrise-step-magic-pod
 source_code_url: https://github.com/magic-Pod/bitrise-step-magic-pod
 support_url: https://github.com/magic-Pod/bitrise-step-magic-pod/issues
@@ -54,7 +54,7 @@ inputs:
         Access token to use MagicPod Web API.
         
         * Key: Arbitrary new Secret Env name like `MAGIC_POD_API_TOKEN`
-        * Value: API token copied from https://magic-pod.com/accounts/api-token/. 
+        * Value: API token copied from https://app.magicpod.com/accounts/api-token/. 
       is_required: true
       is_expand: true
       is_sensitive: true
@@ -115,7 +115,7 @@ inputs:
         Define how to treat the uploaded app file after the test.
         This option is valid only when you specify _App path_.
       value_options: ["Not delete", "Always delete", "Delete only when tests succeeded"]
-  - base_url: "https://magic-pod.com"
+  - base_url: "https://app.magicpod.com"
     opts:
       title: "MagicPod web API URL"
       description: |-
@@ -135,4 +135,4 @@ outputs:
       title: "MAGIC_POD_TEST_RESULT"
       summary: |-
         Array which contains status/URL information of all batch runs.  The format is like
-        [{"Url":"https://magic-pod.com/ORG_NAME/PRJ_NAME/batch-run/10/","Status":"failed","Batch_Run_Number":10,"Test_Cases":{"Succeeded":3,"Failed":1,"Aborted":0,"Unresolved":0,"Total":4}}]
+        [{"Url":"https://app.magicpod.com/ORG_NAME/PRJ_NAME/batch-run/10/","Status":"failed","Batch_Run_Number":10,"Test_Cases":{"Succeeded":3,"Failed":1,"Aborted":0,"Unresolved":0,"Total":4}}]

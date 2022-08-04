@@ -1,6 +1,6 @@
 # magic-pod
 
-This step enables E2E testing powered by [MagicPod](https://magic-pod.com)
+This step enables E2E testing powered by [MagicPod](https://magicpod.com)
 
 
 ## How to use this Step
@@ -14,11 +14,11 @@ added to your `.bitrise.secrets.yml` file!*
 
 Requirements:
 
-- You need to sign up to `https://magic-pod.com` and create the following.
+- You need to sign up to `https://app.magicpod.com` and create the following.
   - Project
   - Test cases
   - Test settings (which defines how batch runs should be executed)
-- You also need to confirm your API token in `https://magic-pod.com/accounts/api-token/`
+- You also need to confirm your API token in `https://app.magicpod.com/accounts/api-token/`
 
 Step by step:
 
