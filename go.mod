@@ -3,7 +3,7 @@ module github.com/magic-pod/bitrise-step-magic-pod
 go 1.17
 
 require (
-	github.com/Magic-Pod/magicpod-api-client v0.0.0-20220804002144-74e6d878ec2b
+	github.com/Magic-Pod/magicpod-api-client v0.0.0-20230224075122-0824bab1bbc4
 	github.com/bitrise-io/go-utils v1.0.1
 	github.com/bitrise-tools/go-steputils v0.0.0-20200227150459-94490ca44ddb
 	github.com/urfave/cli v1.22.5
@@ -23,7 +23,7 @@ require (
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/ulikunitz/xz v0.5.10 // indirect
 	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8 // indirect
-	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
+	golang.org/x/net v0.7.0 // indirect
 )
 
 require github.com/bitrise-io/go-steputils v1.0.1 // indirect
