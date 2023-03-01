@@ -1,4 +1,4 @@
-# github.com/Magic-Pod/magicpod-api-client v0.0.0-20220804002144-74e6d878ec2b
+# github.com/Magic-Pod/magicpod-api-client v0.0.0-20230224075122-0824bab1bbc4
 ## explicit; go 1.17
 github.com/Magic-Pod/magicpod-api-client/common
 # github.com/bitrise-io/go-steputils v1.0.1
@@ -64,7 +64,7 @@ github.com/urfave/cli
 # github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8
 ## explicit
 github.com/xi2/xz
-# golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2
+# golang.org/x/net v0.7.0
 ## explicit; go 1.17
 golang.org/x/net/publicsuffix
 # github.com/go-resty/resty => gopkg.in/resty.v1 v1.11.0
