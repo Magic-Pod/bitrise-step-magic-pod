@@ -1,6 +1,9 @@
-# github.com/Magic-Pod/magicpod-api-client v0.0.0-20230224075122-0824bab1bbc4
-## explicit; go 1.17
+# github.com/Magic-Pod/magicpod-api-client v0.0.0-20231114040221-e84816d393ea
+## explicit; go 1.21
 github.com/Magic-Pod/magicpod-api-client/common
+# github.com/andybalholm/brotli v1.0.0
+## explicit; go 1.12
+github.com/andybalholm/brotli
 # github.com/bitrise-io/go-steputils v1.0.1
 ## explicit; go 1.15
 # github.com/bitrise-io/go-utils v1.0.1
@@ -15,7 +18,7 @@ github.com/bitrise-io/go-utils/pointers
 ## explicit
 github.com/bitrise-tools/go-steputils/stepconf
 github.com/bitrise-tools/go-steputils/tools
-# github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d
+# github.com/cpuguy83/go-md2man/v2 v2.0.0
 ## explicit; go 1.12
 github.com/cpuguy83/go-md2man/v2/md2man
 # github.com/dsnet/compress v0.0.1
@@ -34,18 +37,30 @@ github.com/go-resty/resty
 github.com/golang/snappy
 # github.com/google/go-cmp v0.5.7
 ## explicit; go 1.11
+# github.com/klauspost/compress v1.10.10
+## explicit; go 1.13
+github.com/klauspost/compress/flate
+github.com/klauspost/compress/fse
+github.com/klauspost/compress/gzip
+github.com/klauspost/compress/huff0
+github.com/klauspost/compress/snappy
+github.com/klauspost/compress/zstd
+github.com/klauspost/compress/zstd/internal/xxhash
+# github.com/klauspost/pgzip v1.2.4
+## explicit
+github.com/klauspost/pgzip
 # github.com/kr/pretty v0.3.0
 ## explicit; go 1.12
-# github.com/mholt/archiver v3.1.1+incompatible
-## explicit
-github.com/mholt/archiver
+# github.com/mholt/archiver/v3 v3.3.2
+## explicit; go 1.12
+github.com/mholt/archiver/v3
 # github.com/nwaples/rardecode v1.1.2
 ## explicit
 github.com/nwaples/rardecode
-# github.com/pierrec/lz4 v2.6.1+incompatible
-## explicit
-github.com/pierrec/lz4
-github.com/pierrec/lz4/internal/xxh32
+# github.com/pierrec/lz4/v3 v3.3.2
+## explicit; go 1.12
+github.com/pierrec/lz4/v3
+github.com/pierrec/lz4/v3/internal/xxh32
 # github.com/russross/blackfriday/v2 v2.0.1
 ## explicit
 github.com/russross/blackfriday/v2
@@ -64,7 +79,7 @@ github.com/urfave/cli
 # github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8
 ## explicit
 github.com/xi2/xz
-# golang.org/x/net v0.7.0
+# golang.org/x/net v0.17.0
 ## explicit; go 1.17
 golang.org/x/net/publicsuffix
 # github.com/go-resty/resty => gopkg.in/resty.v1 v1.11.0
