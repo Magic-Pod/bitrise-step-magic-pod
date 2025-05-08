@@ -47,13 +47,13 @@ toolkit:
 
 
 inputs:
-  - magic_pod_api_token:
+  - magicpod_api_token:
     opts:
       title: "MagicPod API token"
       description: |-
         Access token to use MagicPod Web API.
         
-        * Key: Arbitrary new Secret Env name like `MAGIC_POD_API_TOKEN`
+        * Key: Arbitrary new Secret Env name like `MAGICPOD_API_TOKEN`
         * Value: API token copied from https://app.magicpod.com/accounts/api-token/. 
       is_required: true
       is_expand: true
@@ -125,14 +125,14 @@ inputs:
 
 
 outputs:
-  - MAGIC_POD_TEST_SUCCEEDED:
+  - MAGICPOD_TEST_SUCCEEDED:
     opts:
-      title: "MAGIC_POD_TEST_SUCCEEDED"
+      title: "MAGICPOD_TEST_SUCCEEDED"
       summary: |-
         This variable becomes 'true' only when all batch runs succeeded, otherwise 'false'.
-  - MAGIC_POD_TEST_RESULT:
+  - MAGICPOD_TEST_RESULT:
     opts:
-      title: "MAGIC_POD_TEST_RESULT"
+      title: "MAGICPOD_TEST_RESULT"
       summary: |-
         Array which contains status/URL information of all batch runs.  The format is like
         [{"Url":"https://app.magicpod.com/ORG_NAME/PRJ_NAME/batch-run/10/","Status":"failed","Batch_Run_Number":10,"Test_Cases":{"Succeeded":3,"Failed":1,"Aborted":0,"Unresolved":0,"Total":4}}]

@@ -16,7 +16,7 @@ import (
 // Config : Configuration for this step
 type Config struct {
 	BaseURL            string          `env:"base_url,required"`
-	APIToken           stepconf.Secret `env:"magic_pod_api_token,required"`
+	APIToken           stepconf.Secret `env:"magicpod_api_token,required"`
 	OrganizationName   string          `env:"organization_name,required"`
 	ProjectName        string          `env:"project_name,required"`
 	AppPath            string          `env:"app_path"`
@@ -83,14 +83,14 @@ func main() {
 		}
 	}
 
-	os.Setenv("MAGIC_POD_API_TOKEN", string(cfg.APIToken))
-	os.Setenv("MAGIC_POD_ORGANIZATION", cfg.OrganizationName)
-	os.Setenv("MAGIC_POD_PROJECT", cfg.ProjectName)
+	os.Setenv("MAGICPOD_API_TOKEN", string(cfg.APIToken))
+	os.Setenv("MAGICPOD_ORGANIZATION", cfg.OrganizationName)
+	os.Setenv("MAGICPOD_PROJECT", cfg.ProjectName)
 
 	stepconf.Print(cfg)
 	fmt.Println()
 
-	if err := os.Unsetenv("magic_pod_api_token"); err != nil {
+	if err := os.Unsetenv("magicpod_api_token"); err != nil {
 		failf("Failed to remove API key data from envs, error: %s", err)
 	}
 
@@ -153,8 +153,8 @@ func main() {
 	if err != nil {
 		failf(err.Error())
 	}
-	tools.ExportEnvironmentWithEnvman("MAGIC_POD_TEST_SUCCEEDED", strconv.FormatBool(succeeded))
-	tools.ExportEnvironmentWithEnvman("MAGIC_POD_TEST_RESULT", result)
+	tools.ExportEnvironmentWithEnvman("MAGICPOD_TEST_SUCCEEDED", strconv.FormatBool(succeeded))
+	tools.ExportEnvironmentWithEnvman("MAGICPOD_TEST_RESULT", result)
 	if succeeded {
 		os.Exit(0)
 	} else {
