@@ -22,6 +22,7 @@ type Config struct {
 	AppPath            string          `env:"app_path"`
 	TestSettingsNumber int             `env:"test_settings_number"`
 	TestSettings       string          `env:"test_settings"`
+	BranchName         string          `env:"branch_name"`
 	WaitForResult      bool            `env:"wait_for_result"`
 	WaitLimit          int             `env:"wait_limit"`
 	DeleteAppAfterTest string          `env:"delete_app_after_test"`
@@ -54,7 +55,7 @@ func deleteAppFile(cfg Config, appFileNumber int) {
 
 func startBatchRun(cfg Config, appFileNumber int) (*common.BatchRun, *cli.ExitError) {
 	log.Infof("test settings number = %d", cfg.TestSettingsNumber)
-	return common.StartBatchRun(cfg.BaseURL, string(cfg.APIToken), cfg.OrganizationName, cfg.ProjectName, make(map[string]string), cfg.TestSettingsNumber, "")
+	return common.StartBatchRun(cfg.BaseURL, string(cfg.APIToken), cfg.OrganizationName, cfg.ProjectName, make(map[string]string), cfg.TestSettingsNumber, cfg.BranchName, "")
 }
 
 func getBatchRun(cfg Config, batchRunNumber int) *common.BatchRun {
@@ -124,7 +125,7 @@ func main() {
 	log.Infof(settingsStr)
 
 	batchRun, existsErr, existsUnresolved, cliErr := common.ExecuteBatchRun(cfg.BaseURL, string(cfg.APIToken),
-		cfg.OrganizationName, cfg.ProjectName, make(map[string]string), cfg.TestSettingsNumber,
+		cfg.OrganizationName, cfg.ProjectName, make(map[string]string), cfg.TestSettingsNumber, cfg.BranchName,
 		settingsStr, cfg.WaitForResult, cfg.WaitLimit, true)
 	if cliErr != nil {
 		failf(cliErr.Error())

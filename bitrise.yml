@@ -9,6 +9,7 @@ app:
   - PROJECT_NAME: $PROJECT_NAME
   - TEST_SETTINGS_NUMBER: $TEST_SETTINGS_NUMBER
   - TEST_SETTINGS: $TEST_SETTINGS
+  - BRANCH_NAME: $BRANCH_NAME
   - APP_PATH: $APP_PATH
   - WAIT_FOR_RESULT: $WAIT_FOR_RESULT
   - WAIT_LIMIT: $WAIT_LIMIT
@@ -44,6 +45,7 @@ workflows:
         - project_name: $PROJECT_NAME
         - test_settings_number: $TEST_SETTINGS_NUMBER
         - test_settings: $TEST_SETTINGS
+        - branch_name: $BRANCH_NAME
         - app_path: $APP_PATH
         - wait_for_result: $WAIT_FOR_RESULT
         - wait_limit: $WAIT_LIMIT
